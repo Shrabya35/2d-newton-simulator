@@ -1,5 +1,5 @@
 # 2d-newton-simulator
-  Watch an apple to discover gravity. watching anything else might reduce your score.
+  Watch an falling apple to discover gravity. watching anything else might reduce your score.
 
 ### Tools used
 
