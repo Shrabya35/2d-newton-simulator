@@ -2,13 +2,11 @@
 
 ### Tools used
 
-- HTML
-- CSS
-- JS
+- Python (Pygame)
 
 
-### Preview ->
- file:///home/shrabya/Downloads/preview1png
+
+
 
 
 
