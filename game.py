@@ -29,11 +29,11 @@ coco_img2 = pygame.image.load(os.path.join('img', 'coco.png'))
 coco_img2 = pygame.transform.scale(coco_img, (70, 50))
 x = 300
 y = 345
-a_x = random.randint(50, 600)
+a_x = random.randint(50, 800)
 a_y = 0
-c_x = random.randint(50, 600)
+c_x = random.randint(50, 800)
 c_y = 0
-c_x1 = random.randint(50, 600)
+c_x1 = random.randint(50, 800)
 c_y1 = 0
 apple_speed = 10
 coco_speed = 8
@@ -67,18 +67,20 @@ def collide3(x, y, c_x1, c_y1):
 
 while True:
 
+
+
     c_y = c_y + coco_speed
     if c_y > 550:
-        c_x = random.randint(50, 600)
+        c_x = random.randint(50, 800)
         c_y = -25
     c_y1 = c_y1 + coco_speed
     if c_y1 > 550:
-        c_x1 = random.randint(50, 600)
+        c_x1 = random.randint(50, 800)
         c_y1 = -25
 
     a_y = a_y + apple_speed
     if a_y > 550:
-        a_x = random.randint(50, 600)
+        a_x = random.randint(50, 800)
         a_y = -25
     clock.tick(FPS)
 
@@ -97,7 +99,6 @@ while True:
         elif pressed[pygame.K_ESCAPE]:
             pygame.quit()
         if score < 0:
-
             death.play()
             time.sleep(5)
             pygame.quit()
@@ -113,19 +114,19 @@ while True:
         text4 = font3.render("- Watch Coconut= -2", True, color2)
         collision2 = collide2(x, y, c_x, c_y)
         if collision2:
-            c_x = random.randint(50, 600)
+            c_x = random.randint(50, 800)
             c_y = -25
             score = score -2
             coco.play()
         collision = collide(x, y, a_x, a_y)
         if collision:
-            a_x = random.randint(50, 600)
+            a_x = random.randint(50, 800)
             a_y = -25
             score = score +1
             score_sound.play()
         collision3 = collide3(x, y, c_x1, c_y1)
         if collision3:
-            c_x1 = random.randint(50, 600)
+            c_x1 = random.randint(50, 800)
             c_y1 = -25
             score = score -2
             coco.play()
