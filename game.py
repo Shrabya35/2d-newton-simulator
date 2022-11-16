@@ -1,3 +1,5 @@
+import time
+from pygame import mixer
 import pygame, sys
 from pygame.locals import *
 import os
@@ -5,6 +7,10 @@ import random
 import math
 
 pygame.init()
+mixer.init()
+death = pygame.mixer.Sound("over.mp3")
+score_sound = pygame.mixer.Sound("score.mp3")
+coco = pygame.mixer.Sound("minus.mp3")
 DISPLAY = pygame.display.set_mode((1080, 650))
 pygame.display.set_caption('2D Newton Simulator')
 sky = (135, 206, 235)
@@ -19,12 +25,16 @@ apple_img = pygame.image.load(os.path.join('img', 'apple.png'))
 apple_img = pygame.transform.scale(apple_img, (100, 80))
 coco_img = pygame.image.load(os.path.join('img', 'coco.png'))
 coco_img = pygame.transform.scale(coco_img, (70, 50))
+coco_img2 = pygame.image.load(os.path.join('img', 'coco.png'))
+coco_img2 = pygame.transform.scale(coco_img, (70, 50))
 x = 300
 y = 345
 a_x = random.randint(50, 600)
 a_y = 0
 c_x = random.randint(50, 600)
 c_y = 0
+c_x1 = random.randint(50, 600)
+c_y1 = 0
 apple_speed = 10
 coco_speed = 8
 score = 0
@@ -48,24 +58,31 @@ def collide2(x, y, c_x, c_y):
         return True
     else:
         return False
+def collide3(x, y, c_x1, c_y1):
+    distance3 = math.sqrt(math.pow(x-c_x1, 2) + (math.pow(y-c_y1, 2)))
+    if distance3 < 80:
+        return True
+    else:
+        return False
 
 while True:
-
-
-
-
 
     c_y = c_y + coco_speed
     if c_y > 550:
         c_x = random.randint(50, 600)
         c_y = -25
-
+    c_y1 = c_y1 + coco_speed
+    if c_y1 > 550:
+        c_x1 = random.randint(50, 600)
+        c_y1 = -25
 
     a_y = a_y + apple_speed
     if a_y > 550:
         a_x = random.randint(50, 600)
         a_y = -25
     clock.tick(FPS)
+
+
 
 
     for event in pygame.event.get():
@@ -79,26 +96,39 @@ while True:
             x += 40
         elif pressed[pygame.K_ESCAPE]:
             pygame.quit()
+        if score < 0:
 
+            death.play()
+            time.sleep(5)
+            pygame.quit()
        #boundary set
         if x <= -40:
             x = -40
         elif x >= 800:
             x = 800
+
         text = font.render("Gravity found: " + str(score), True, black)
         text2 = font2.render("Rules", True, color2)
         text3 = font3.render("- Watch apple = +1", True, color2)
-        text4 = font3.render("- Watch Coconut= -1", True, color2)
+        text4 = font3.render("- Watch Coconut= -2", True, color2)
         collision2 = collide2(x, y, c_x, c_y)
         if collision2:
             c_x = random.randint(50, 600)
             c_y = -25
-            score = score - 1
+            score = score -2
+            coco.play()
         collision = collide(x, y, a_x, a_y)
         if collision:
             a_x = random.randint(50, 600)
             a_y = -25
             score = score +1
+            score_sound.play()
+        collision3 = collide3(x, y, c_x1, c_y1)
+        if collision3:
+            c_x1 = random.randint(50, 600)
+            c_y1 = -25
+            score = score -2
+            coco.play()
 
 
 
@@ -112,15 +142,13 @@ while True:
 
     DISPLAY.fill(sky)
     DISPLAY.blit(bg_img, (0, 245))
-    DISPLAY.blit(text2, (940, 20))
-    DISPLAY.blit(text, (30, 20))
-    DISPLAY.blit(text3, (910, 40))
-    DISPLAY.blit(text4, (910, 55))
     DISPLAY.blit(apple_img, (a_x, a_y))
     DISPLAY.blit(coco_img, (c_x, c_y))
+    DISPLAY.blit(coco_img2, (c_x1, c_y1))
     DISPLAY.blit(box_img, (x, y))
+    DISPLAY.blit(text, (30, 20))
+    DISPLAY.blit(text2, (940, 20))
+    DISPLAY.blit(text3, (910, 40))
+    DISPLAY.blit(text4, (910, 55))
 
     pygame.display.update()
-
-
-
