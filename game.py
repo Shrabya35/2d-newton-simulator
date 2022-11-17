@@ -11,6 +11,7 @@ mixer.init()
 mixer.music.load('bg.mp3')
 mixer.music.play(-1)
 death = pygame.mixer.Sound("over.mp3")
+sponge = pygame.mixer.Sound("sponge.mp3")
 score_sound = pygame.mixer.Sound("score.mp3")
 coco = pygame.mixer.Sound("minus.mp3")
 DISPLAY = pygame.display.set_mode((1080, 650))
@@ -29,6 +30,10 @@ coco_img = pygame.image.load(os.path.join('img', 'coco.png'))
 coco_img = pygame.transform.scale(coco_img, (70, 50))
 coco_img2 = pygame.image.load(os.path.join('img', 'coco.png'))
 coco_img2 = pygame.transform.scale(coco_img, (70, 50))
+boss = pygame.image.load(os.path.join('img', 'boss.png'))
+boss = pygame.transform.scale(boss, (150, 120))
+b_x = random.randint(50, 800)
+b_y = 1200
 x = 300
 y = 345
 a_x = random.randint(50, 800)
@@ -67,10 +72,20 @@ def collide3(x, y, c_x1, c_y1):
     else:
         return False
 
+def collide4(x, y, b_x, b_y):
+    distance4 = math.sqrt(math.pow(x-b_x, 2) + (math.pow(y-b_y, 2)))
+    if distance4 < 80:
+        return True
+    else:
+        return False
+
 while True:
 
 
-
+    b_y = b_y - coco_speed
+    if b_y < 0:
+        b_x = random.randint(50, 800)
+        b_y = 1200
     c_y = c_y + coco_speed
     if c_y > 550:
         c_x = random.randint(50, 800)
@@ -115,6 +130,7 @@ while True:
         text2 = font2.render("Rules", True, color2)
         text3 = font3.render("- Watch apple = +1", True, color2)
         text4 = font3.render("- Watch Coconut= -2", True, color2)
+        text5 = font3.render("- Dont watch Spongebob", True, color2)
         collision2 = collide2(x, y, c_x, c_y)
         if collision2:
             c_x = random.randint(50, 800)
@@ -134,6 +150,13 @@ while True:
             score = score -2
             coco.play()
 
+        collision4 = collide4(x, y, b_x, b_y)
+        if collision4:
+            mixer.music.pause()
+            sponge.play()
+            time.sleep(4)
+            pygame.quit()
+
 
 
 
@@ -145,6 +168,7 @@ while True:
             sys.exit()
 
     DISPLAY.fill(sky)
+    DISPLAY.blit(boss, (b_x, b_y))
     DISPLAY.blit(bg_img, (0, 245))
     DISPLAY.blit(apple_img, (a_x, a_y))
     DISPLAY.blit(coco_img, (c_x, c_y))
@@ -152,7 +176,9 @@ while True:
     DISPLAY.blit(box_img, (x, y))
     DISPLAY.blit(text, (30, 20))
     DISPLAY.blit(text2, (940, 20))
-    DISPLAY.blit(text3, (910, 40))
-    DISPLAY.blit(text4, (910, 55))
+    DISPLAY.blit(text3, (870, 40))
+    DISPLAY.blit(text4, (870, 55))
+    DISPLAY.blit(text5, (870, 70))
+
 
     pygame.display.update()
