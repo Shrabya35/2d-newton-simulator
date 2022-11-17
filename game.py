@@ -31,7 +31,7 @@ coco_img = pygame.transform.scale(coco_img, (70, 50))
 coco_img2 = pygame.image.load(os.path.join('img', 'coco.png'))
 coco_img2 = pygame.transform.scale(coco_img, (70, 50))
 boss = pygame.image.load(os.path.join('img', 'boss.png'))
-boss = pygame.transform.scale(boss, (150, 120))
+boss = pygame.transform.scale(boss, (190, 150))
 b_x = random.randint(50, 800)
 b_y = 1200
 x = 300
@@ -130,7 +130,7 @@ while True:
         text2 = font2.render("Rules", True, color2)
         text3 = font3.render("- Watch apple = +1", True, color2)
         text4 = font3.render("- Watch Coconut= -2", True, color2)
-        text5 = font3.render("- Dont watch Spongebob", True, color2)
+        text5 = font3.render("- Dont Watch Spongebob", True, color2)
         collision2 = collide2(x, y, c_x, c_y)
         if collision2:
             c_x = random.randint(50, 800)
