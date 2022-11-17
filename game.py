@@ -8,6 +8,8 @@ import math
 
 pygame.init()
 mixer.init()
+mixer.music.load('bg.mp3')
+mixer.music.play(-1)
 death = pygame.mixer.Sound("over.mp3")
 score_sound = pygame.mixer.Sound("score.mp3")
 coco = pygame.mixer.Sound("minus.mp3")
@@ -99,6 +101,7 @@ while True:
         elif pressed[pygame.K_ESCAPE]:
             pygame.quit()
         if score < 0:
+            mixer.music.pause()
             death.play()
             time.sleep(5)
             pygame.quit()
