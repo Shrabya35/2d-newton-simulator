@@ -7,31 +7,45 @@ import random
 import math
 
 pygame.init()
+
+
 mixer.init()
-mixer.music.load('bg.mp3')
+mixer.music.load("data/bg.mp3")
 mixer.music.play(-1)
-death = pygame.mixer.Sound("over.mp3")
-sponge = pygame.mixer.Sound("sponge.mp3")
-score_sound = pygame.mixer.Sound("score.mp3")
-coco = pygame.mixer.Sound("minus.mp3")
+
+#variables 
+
+
+death = pygame.mixer.Sound("data/over.mp3")
+ten = pygame.mixer.Sound("data/10.mp3")
+sponge = pygame.mixer.Sound("data/sponge.mp3")
+score_sound = pygame.mixer.Sound("data/score.mp3")
+coco = pygame.mixer.Sound("data/minus.mp3")
+miss = pygame.mixer.Sound("data/miss.mp3")
+
+
 DISPLAY = pygame.display.set_mode((1080, 650))
 pygame.display.set_caption('2D Newton Simulator')
 sky = (135, 206, 235)
 black = (0, 0, 0)
 color2 = (0,10,100)
 FPS = 24
-bg_img = pygame.image.load(os.path.join('img', 'bg.png'))
+
+
+bg_img = pygame.image.load(os.path.join('data', 'bg.png'))
 bg_img = pygame.transform.scale(bg_img, (1080, 410))
-box_img = pygame.image.load(os.path.join('img', 'box.png'))
+box_img = pygame.image.load(os.path.join('data', 'box.png'))
 box_img = pygame.transform.scale(box_img, (300, 300))
-apple_img = pygame.image.load(os.path.join('img', 'apple.png'))
+apple_img = pygame.image.load(os.path.join('data', 'apple.png'))
 apple_img = pygame.transform.scale(apple_img, (100, 80))
-coco_img = pygame.image.load(os.path.join('img', 'coco.png'))
+coco_img = pygame.image.load(os.path.join('data', 'coco.png'))
 coco_img = pygame.transform.scale(coco_img, (70, 50))
-coco_img2 = pygame.image.load(os.path.join('img', 'coco.png'))
+coco_img2 = pygame.image.load(os.path.join('data', 'coco.png'))
 coco_img2 = pygame.transform.scale(coco_img, (70, 50))
-boss = pygame.image.load(os.path.join('img', 'boss.png'))
+boss = pygame.image.load(os.path.join('data', 'boss.png'))
 boss = pygame.transform.scale(boss, (190, 150))
+
+
 b_x = random.randint(50, 800)
 b_y = 1200
 x = 300
@@ -45,14 +59,14 @@ c_y1 = 0
 apple_speed = 10
 coco_speed = 8
 score = 0
+
+
 font = pygame.font.Font(pygame.font.get_default_font(), 25)
 font2 = pygame.font.Font(pygame.font.get_default_font(), 20)
 font3 = pygame.font.Font(pygame.font.get_default_font(), 17)
 
-
+#collision detection
 clock = pygame.time.Clock()
-
-
 def collide(x, y, a_x, a_y):
     distance = math.sqrt(math.pow(x-a_x, 2) + (math.pow(y-a_y, 2)))
     if distance < 80:
@@ -79,7 +93,10 @@ def collide4(x, y, b_x, b_y):
     else:
         return False
 
+
+#in-game loop
 while True:
+
 
 
     b_y = b_y - coco_speed
@@ -99,6 +116,10 @@ while True:
     if a_y > 550:
         a_x = random.randint(50, 800)
         a_y = -25
+        miss.play()
+
+
+
     clock.tick(FPS)
 
 
@@ -120,17 +141,23 @@ while True:
             death.play()
             time.sleep(5)
             pygame.quit()
+
+
        #boundary set
         if x <= -40:
             x = -40
         elif x >= 800:
             x = 800
 
+
+        #text 
         text = font.render("Gravity found: " + str(score), True, black)
         text2 = font2.render("Rules", True, color2)
         text3 = font3.render("- Watch apple = +1", True, color2)
         text4 = font3.render("- Watch Coconut= -2", True, color2)
         text5 = font3.render("- Dont Watch Spongebob", True, color2)
+
+        #collision 
         collision2 = collide2(x, y, c_x, c_y)
         if collision2:
             c_x = random.randint(50, 800)
@@ -166,6 +193,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+            
 
     DISPLAY.fill(sky)
     DISPLAY.blit(boss, (b_x, b_y))
