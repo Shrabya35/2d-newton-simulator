@@ -131,6 +131,7 @@ def game_loop():
     b_y = 1200
     x = 600
     y = 375
+    player_speed = 10
     a_x = random.randint(50, 800)
     a_y = 0
     c_x = random.randint(50, 800)
@@ -173,6 +174,7 @@ def game_loop():
         
         coco_speed += speed * delta_time
         apple_speed += speed * delta_time
+        player_speed += speed * delta_time
 
         b_y -= coco_speed
         if b_y < 0:
@@ -207,9 +209,9 @@ def game_loop():
         # Player movement
         pressed = pygame.key.get_pressed()
         if pressed[pygame.K_LEFT]:
-            x -= 10 + speed
+            x -= player_speed
         elif pressed[pygame.K_RIGHT]:
-            x += 10
+            x += player_speed
         elif pressed[pygame.K_ESCAPE]:
             pygame.quit()
         
